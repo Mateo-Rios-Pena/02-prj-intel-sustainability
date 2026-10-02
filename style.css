@@ -1,1 +1,184 @@
 /* Add your CSS here */
+/* ---------- COLORS: Intel blues. Change here to restyle everything ---------- */
+:root {
+  --blue: #0068b5;
+  --dark-blue: #003c71;
+  --cyan: #00c7fd;
+  --background: #f3f6fa;
+  --text: #1c2536;
+  --muted: #4a5568;
+  --font: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* ---------- BASE ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--background);
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  /* dark-to-medium blue keeps white text easy to read */
+  background: linear-gradient(135deg, var(--dark-blue), var(--blue));
+  color: #ffffff;
+  padding: 3rem 1.5rem 4rem;
+}
+
+.hero-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.logo {
+  display: block;
+  height: 56px;      /* set the height, width follows automatically */
+  width: auto;
+  margin-bottom: 2.5rem;
+  filter: brightness(0) invert(1); /* turns the logo white so it shows on blue */
+}
+
+.hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.2rem, 6vw, 4rem); /* scales with screen size */
+  line-height: 1.1;
+}
+
+.hero h1::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 5px;
+  margin-top: 1rem;
+  background: var(--cyan);
+}
+
+.hero p {
+  max-width: 40rem;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* ---------- TIMELINE ---------- */
+.timeline {
+  display: flex;               /* puts the cards in a row */
+  align-items: flex-start;     /* cards keep their own height when one expands */
+  gap: 1.5rem;
+  overflow-x: auto;            /* scroll sideways on large screens */
+  padding: 2.5rem 1.5rem 3rem;
+
+  /* EXTRA CREDIT: scroll snap */
+  scroll-snap-type: x mandatory;  /* scrolling always settles on a card */
+  scroll-padding-inline: 1.5rem;  /* keeps the snapped card clear of the edge */
+  scroll-behavior: smooth;
+}
+
+/* ---------- CARDS ---------- */
+.card {
+  flex: 0 0 280px;             /* don't shrink, stay 280px wide */
+  padding: 1.5rem;
+  background: #ffffff;
+  border-top: 5px solid var(--blue);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 60, 113, 0.12);
+
+  /* EXTRA CREDIT: each card is a snap point, and changes animate smoothly */
+  scroll-snap-align: start;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--blue);
+}
+
+.card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+  color: var(--dark-blue);
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+/* On devices with a mouse, hide the details until hover or keyboard focus.
+   Touch screens skip this rule, so the text is always visible there. */
+@media (hover: hover) {
+  .card p {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+  }
+
+  .card:hover p,
+  .card:focus-within p {
+    max-height: 250px;
+    opacity: 1;
+  }
+
+  /* EXTRA CREDIT: lift and grow the card, deepen the shadow */
+  .card:hover,
+  .card:focus-within {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 14px 28px rgba(0, 60, 113, 0.25);
+    border-top-color: var(--cyan);
+  }
+}
+
+/* Turn off the movement for visitors who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .timeline {
+    scroll-behavior: auto;
+  }
+
+  .card,
+  .card:hover,
+  .card:focus-within {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- SMALL SCREENS: stack the cards vertically ---------- */
+@media (max-width: 768px) {
+  .timeline {
+    flex-direction: column;
+    align-items: stretch;
+    overflow-x: visible;
+    scroll-snap-type: none;  /* snapping is only for the horizontal layout */
+  }
+
+  .card {
+    flex: 0 0 auto;
+  }
+}
+
+/* ---------- HINT TEXT ---------- */
+.hint {
+  padding: 0 1.5rem 2rem;
+  text-align: center;
+  color: var(--muted);
+}
